@@ -1,0 +1,10 @@
+torch >= 1.4.0
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline
+torch-geometric >= 1.4.3
+networkx
+sklearn
+numpy
+pyyaml
