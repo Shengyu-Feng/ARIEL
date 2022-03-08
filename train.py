@@ -60,7 +60,7 @@ def test(model: Model, x, edge_index, y, final=False, task ="node"):
     adj = edge2adj(x, edge_index)
     x = x.to(device)
     adj = adj.to(device)
-    z = model(x, normalize_adj_tensor_sp(adj))
+    z = model(x, adj)
     return label_classification(z, y, ratio=0.1)
 
 if __name__ == '__main__':
