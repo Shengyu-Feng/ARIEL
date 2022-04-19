@@ -3,17 +3,18 @@ import os.path as osp
 import random
 from time import perf_counter as t
 import yaml
-from yaml import SafeLoader
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+from yaml import SafeLoader
+from scipy.linalg import fractional_matrix_power, inv
 from torch.utils.data import random_split
+import torch
+import torch_geometric.transforms as T
+import torch.nn.functional as F
+import torch.nn as nn
 from layers import GCNConv
 import networkx as nx
 import matplotlib.pyplot as plt
-import torch_geometric.transforms as T
-from torch_geometric.datasets import Planetoid, CitationFull, Amazon, Coauthor
+from torch_geometric.datasets import Planetoid, CitationFull, Amazon, Coauthor, GitHub, FacebookPagePage, LastFMAsia, DeezerEurope
 from torch_geometric.utils import dropout_adj
 from model import Encoder, Model, drop_feature
 from utils import normalize_adj_tensor, normalize_adj_tensor_sp, edge2adj
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--config', type=str, default='config.yaml')
     parser.add_argument('--log', type=str, default='results/tmp')
-    parser.add_argument('--seed', type=int, default=1)
+    parser.add_argument('--seed', type=int, default=39788)
     parser.add_argument('--eps', type=float, default=0)
     parser.add_argument('--alpha', type=float, default=0)
     parser.add_argument('--beta', type=float, default=0)
@@ -79,8 +80,29 @@ if __name__ == '__main__':
 
     assert args.gpu_id in range(0, 8)
 
-    config = yaml.load(open(args.config), Loader=SafeLoader)[args.dataset]
-
+    
+    config = yaml.load(open(args.config), Loader=SafeLoader)
+    if args.dataset in config:
+        config = config[args.dataset]
+    else:
+        config = {
+        'learning_rate': 0.001,
+        'num_hidden': 256,
+        'num_proj_hidden': 256,
+        'activation': 'prelu',
+        'base_model': 'GCNConv',
+        'num_layers': 2,
+        'drop_edge_rate_1': 0.3,
+        'drop_edge_rate_2': 0.4,
+        'drop_feature_rate_1': 0.1,
+        'drop_feature_rate_2': 0.0,
+        'tau': 0.4,
+        'num_epochs': 1000,
+        'weight_decay': 1e-5,
+        'drop_scheme': 'degree',
+    }
+    
+        
     torch.manual_seed(config["seed"])
     random.seed(12345)
     np.random.seed(config["seed"])
@@ -99,13 +121,19 @@ if __name__ == '__main__':
     tau = config['tau']
     num_epochs = config['num_epochs']
     weight_decay = config['weight_decay']
-    eps = config["eps"]
-    lamb = config["lamb"]
-
+    # switch to the customer inputs by using args.{}
+    eps = config["eps"] # args.eps
+    lamb = config["lamb"] # args.lamb
+    alpha = config["alpha"] # args.alpha
+    beta = config["beta"] # arg.sbeta
+    
+    
     sample_size = 500
     
     def get_dataset(path, name):
-        assert name in ['Cora', 'CiteSeer', "AmazonC", "AmazonP", 'CoauthorC', 'CoauthorP']
+        assert name in ['Cora', 'CiteSeer', "AmazonC", "AmazonP", 'CoauthorC', 'CoauthorP', "DBLP", "PubMed", "GitHub", "Facebook", "LastFMAsia", "DeezerEurope"]
+        if name =="DBLP":
+            name = "dblp"
         if name == "AmazonC":
             return Amazon(path, "Computers", T.NormalizeFeatures())
         if name == "AmazonP":
@@ -114,8 +142,16 @@ if __name__ == '__main__':
             return Coauthor(root=path, name='cs', transform=T.NormalizeFeatures())
         if name == 'CoauthorP':
             return Coauthor(root=path, name='physics', transform=T.NormalizeFeatures())
+        if name == "GitHub":
+            return GitHub(root=path,transform=T.NormalizeFeatures())
+        if name == "Facebook":
+            return FacebookPagePage(root=path,transform=T.NormalizeFeatures())    
+        if name == "LastFMAsia":
+            return LastFMAsia(root=path,transform=T.NormalizeFeatures())
+        if name == "DeezerEurope":
+            return DeezerEurope(root=path,transform=T.NormalizeFeatures())
 
-        return Planetoid(
+        return (CitationFull if name == 'dblp' else Planetoid)(
             path,
             name,
             "public",
@@ -140,16 +176,18 @@ if __name__ == '__main__':
     
     model.train()
     for epoch in range(1, num_epochs + 1):
-         # increase the eps every T epochs
-        if epoch%20 ==0:
-            eps = eps*1.1
+        # uncomment to increase the eps every T epochs
+        #if epoch%20 ==0:
+        #    eps = eps*1.1
         # sample a subgraph from the original one
+
         S = G.subgraph(np.random.permutation(G.number_of_nodes())[:sample_size])
         x = data.x[np.array(S.nodes())].to(device)
         S = nx.relabel.convert_node_labels_to_integers(S, first_label=0, ordering='default')
         edge_index = np.array(S.edges()).T
         edge_index = torch.LongTensor(np.hstack([edge_index,edge_index[::-1]])).to(device)
-        loss1, loss2 = train(model, x, edge_index, eps, lamb, config["alpha"], config["beta"], 5, 0.2)
+
+        loss1, loss2 = train(model, x, edge_index, eps, lamb, alpha, beta, 5, 0.2)
             
         now = t()
         print(f'(T) | Epoch={epoch:03d}, loss1={loss1:.4f}, loss2={loss2:.4f}'
@@ -161,4 +199,3 @@ if __name__ == '__main__':
     print(results)
     with open(osp.join(args.log, "progress.csv"), "w") as f:
         f.write(str(results))
-   

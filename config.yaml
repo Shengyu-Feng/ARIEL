@@ -1,5 +1,5 @@
 Cora:
-  seed: 2
+  seed: 4
   learning_rate: 0.0005
   num_hidden: 128
   num_proj_hidden: 128
@@ -14,11 +14,11 @@ Cora:
   num_epochs: 300
   weight_decay: 0.00001
   eps: 0.5
-  alpha: 0.1
+  alpha: 200
   beta: 0.01
   lamb: 0
 CiteSeer:
-  seed: 4
+  seed: 2
   learning_rate: 0.001
   num_hidden: 256
   num_proj_hidden: 256
@@ -32,10 +32,10 @@ CiteSeer:
   tau: 0.9
   num_epochs: 200
   weight_decay: 0.00001
-  eps: 2
-  alpha: 0.01
-  beta: 0.001
-  lamb: 1
+  eps: 1
+  alpha: 50
+  beta: 0.01
+  lamb: 0
 AmazonC:
    seed: 3
    learning_rate: 0.01
@@ -51,12 +51,12 @@ AmazonC:
    tau: 0.2
    num_epochs: 2000
    weight_decay: 0.00001
-   eps: 0.5
-   alpha: 0.001
+   eps: 1
+   alpha: 50
    beta: 0.01
    lamb: 0
 AmazonP:
-   seed: 4
+   seed: 3
    learning_rate: 0.1
    num_hidden: 256
    num_proj_hidden: 64
@@ -70,10 +70,10 @@ AmazonP:
    tau: 0.3
    num_epochs: 2000
    weight_decay: 0.00001
-   eps: 2
-   alpha: 0.1
+   eps: 0.5
+   alpha: 200
    beta: 0.01
-   lamb: 1
+   lamb: 0
 CoauthorC:
    seed: 1
    learning_rate: 0.0005
@@ -89,10 +89,10 @@ CoauthorC:
    tau: 0.4
    num_epochs: 1000
    weight_decay: 0.00001
-   eps: 1.5
-   alpha: 0.1
+   eps: 2
+   alpha: 50
    beta: 0.001
-   lamb: 0
+   lamb: 2
 CoauthorP:
    seed: 1
    learning_rate: 0.01
@@ -109,6 +109,6 @@ CoauthorP:
    num_epochs: 1500
    weight_decay: 0.00001
    eps: 1
-   alpha: 0.1
+   alpha: 50
    beta: 0.001
-   lamb: 0.5
+   lamb: 0
