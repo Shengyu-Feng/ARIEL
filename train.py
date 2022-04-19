@@ -131,7 +131,8 @@ if __name__ == '__main__':
     sample_size = 500
     
     def get_dataset(path, name):
-        assert name in ['Cora', 'CiteSeer', "AmazonC", "AmazonP", 'CoauthorC', 'CoauthorP', "DBLP", "PubMed", "GitHub", "Facebook", "LastFMAsia", "DeezerEurope"]
+        assert name in ['Cora', 'CiteSeer', "AmazonC", "AmazonP", 'CoauthorC', 'CoauthorP',\
+                        "DBLP", "PubMed", "GitHub", "Facebook", "LastFMAsia", "DeezerEurope"]
         if name =="DBLP":
             name = "dblp"
         if name == "AmazonC":

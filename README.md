@@ -5,7 +5,7 @@ The official PyTorch implementation of ARIEL in [Adversarial Graph Contrastive L
 
 ## Updates
 - Update the parameters on the lateset `torch-geometric` version, the performance may be a little different. Our results are in folder `results`. Also add the script `batch_train.py` for searching hyperparameters (could launch multiple processes in different terminals) in case new versions come out. 
-- Rescale the range of $\alpha$ and change the constraints of $\beta$, the searching area becomes smaller now. Currently remove the curriculum learning part $\gamma=1$. Information regularization is not always needed, keep $\lambda=0$ at first. In this version, information regularization could sightly improve the performance on `Coauthro-CS`.
+- Simplify the model with less hyperparameters and searching range. We rescale the range of $`\alpha`$ and change the constraints of $`\beta`$, the searching area becomes smaller now. We currently remove the curriculum learning part with $`\gamma=1`$. Information regularization is not always needed, keep $`\lambda=0`$ at first. In this version, information regularization could improve the performance on `Coauthro-CS`.
 - Highly recommend for a larger subgraph size (3000) on large graphs. Will add results for this later.
 
 
@@ -31,7 +31,7 @@ Train and evaluate the model by executing
 ```
 python train.py --dataset Cora
 ```
-The `--dataset` argument should be one of [ Cora, CiteSeer, AmazonC, AmazonP, CoauthorC, CoauthorP ].
+The `--dataset` argument should be one of [ `Cora`, `CiteSeer`, `AmazonC`, `AmazonP`, `CoauthorC`, `CoauthorP` ].
 
 The parameters in `train.py` are now fixed to be from `config.yaml`, change it to `args.{}` for customer inputs.
 
