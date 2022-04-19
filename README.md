@@ -42,19 +42,12 @@ If you find our work helpful, please cite our paper:
 ```
 @misc{https://doi.org/10.48550/arxiv.2202.06491,
   doi = {10.48550/ARXIV.2202.06491},
-  
   url = {https://arxiv.org/abs/2202.06491},
-  
   author = {Feng, Shengyu and Jing, Baoyu and Zhu, Yada and Tong, Hanghang},
-  
   keywords = {Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  
   title = {Adversarial Graph Contrastive Learning with Information Regularization},
-  
   publisher = {arXiv},
-  
   year = {2022},
-  
   copyright = {arXiv.org perpetual, non-exclusive license}
 }
 
