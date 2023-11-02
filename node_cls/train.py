@@ -1,4 +1,5 @@
 import argparse
+import os
 import os.path as osp
 import random
 from time import perf_counter as t
@@ -13,7 +14,6 @@ import torch.nn.functional as F
 import torch.nn as nn
 from layers import GCNConv
 import networkx as nx
-import matplotlib.pyplot as plt
 from torch_geometric.datasets import Planetoid, CitationFull, Amazon, Coauthor, GitHub, FacebookPagePage, LastFMAsia, DeezerEurope
 from torch_geometric.utils import dropout_adj
 from model import Encoder, Model, drop_feature
@@ -67,7 +67,6 @@ def test(model: Model, x, edge_index, y, final=False, task ="node"):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='Cora')
-    parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--config', type=str, default='config.yaml')
     parser.add_argument('--log', type=str, default='results/tmp')
     parser.add_argument('--seed', type=int, default=39788)
@@ -76,11 +75,8 @@ if __name__ == '__main__':
     parser.add_argument('--beta', type=float, default=0)
     parser.add_argument('--lamb', type=float, default=0)
     args = parser.parse_args()
-
-
-    assert args.gpu_id in range(0, 8)
-
     
+    os.makedirs(args.log, exist_ok=True)
     config = yaml.load(open(args.config), Loader=SafeLoader)
     if args.dataset in config:
         config = config[args.dataset]
@@ -180,8 +176,8 @@ if __name__ == '__main__':
         # uncomment to increase the eps every T epochs
         #if epoch%20 ==0:
         #    eps = eps*1.1
+        
         # sample a subgraph from the original one
-
         S = G.subgraph(np.random.permutation(G.number_of_nodes())[:sample_size])
         x = data.x[np.array(S.nodes())].to(device)
         S = nx.relabel.convert_node_labels_to_integers(S, first_label=0, ordering='default')

@@ -112,3 +112,41 @@ CoauthorP:
    alpha: 50
    beta: 0.001
    lamb: 0
+LastFMAsia:
+   seed: 39788
+   learning_rate: 0.001
+   num_hidden: 256
+   num_proj_hidden: 256
+   activation: "prelu"
+   base_model: 'GCNConv'
+   num_layers: 2
+   drop_edge_rate_1: 0.3
+   drop_edge_rate_2: 0.4
+   drop_feature_rate_1: 0.1
+   drop_feature_rate_2: 0.0
+   tau: 0.4
+   num_epochs: 1000
+   weight_decay: 0.00001
+   eps: 0.5
+   alpha: 50
+   beta: 0.001
+   lamb: 0
+Facebook:
+   seed: 4
+   learning_rate: 0.001
+   num_hidden: 256
+   num_proj_hidden: 256
+   activation: "prelu"
+   base_model: 'GCNConv'
+   num_layers: 2
+   drop_edge_rate_1: 0.3
+   drop_edge_rate_2: 0.4
+   drop_feature_rate_1: 0.1
+   drop_feature_rate_2: 0.0
+   tau: 0.4
+   num_epochs: 1000
+   weight_decay: 0.00001
+   eps: 2
+   alpha: 50
+   beta: 0.001
+   lamb: 0

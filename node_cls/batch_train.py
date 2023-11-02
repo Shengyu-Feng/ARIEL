@@ -2,8 +2,25 @@ import os
 import subprocess as sp
 
 
-datasets = ["Cora", "CiteSeer", "AmazonP", "AmazonC", "CoauthorC", "CoauthorP"]
+datasets = ["Cora", "CiteSeer", "AmazonP", "AmazonC", "CoauthorC", "CoauthorP", "Facebook", "LastFMASia"]
+
+jobs = []
+for dataset in datasets:
+    log = "results/%s"%dataset
+    jobs.append({'dataset':dataset,'log': log})
+    
+for job in jobs: 
+    path = job['log']
+    if not os.path.exists(path):
+        sp.call(['mkdir', path])
+        print("Starting: ", job)
+        sp.call(['python', 'train.py',
+            '--dataset', job['dataset'],
+            '--log', path
+                ]) 
+
 """
+# the following code is for hyper parameter search
 seeds = [0,1,2,3,4,39788]
 epses = [0.5 ,1, 1.5, 2]
 alphas = [50, 200, 600]
@@ -38,18 +55,3 @@ for job in jobs:
             '--log', path
                 ])
 """
-
-jobs = []
-for dataset in datasets:
-    log = "results/%s"%dataset
-    jobs.append({'dataset':dataset,'log': log})
-    
-for job in jobs: 
-    path = job['log']
-    if not os.path.exists(path):
-        sp.call(['mkdir', path])
-        print("Starting: ", job)
-        sp.call(['python', 'train.py',
-            '--dataset', job['dataset'],
-            '--log', path
-                ]) 
