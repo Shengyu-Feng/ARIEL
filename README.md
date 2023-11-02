@@ -16,9 +16,8 @@ The official PyTorch implementation of ARIEL in [Adversarial Graph Contrastive L
 - Highly recommend for a larger subgraph size (3000) on large graphs. 
 
 
-## Dependencies
+## Setup
 
-Setup
 ```
 conda env create -f environment.yml
 conda activate ARIEL
@@ -34,7 +33,7 @@ Train and evaluate the model by executing
 cd node_cls
 python train.py --dataset Cora
 ```
-The `--dataset` argument should be one of [`Cora`, `CiteSeer`, `AmazonC`, `AmazonP`, `CoauthorC`, `CoauthorP`, `Facebook`, `LastFMAsia`].
+The `--dataset` argument should be one of `Cora, CiteSeer, AmazonC, AmazonP, CoauthorC, CoauthorP, Facebook, LastFMAsia`.
 
 The parameters in `train.py` are now fixed to be from `config.yaml`, change it to `args.{}` for customer inputs.
 
@@ -47,7 +46,7 @@ cd graph_cls
 bash go.sh $GPU_ID $DATASET_NAME $AUGMENTATION
 ```
 
-`$DATASET_NAME` is the dataset name (please refer to https://chrsmrrs.github.io/datasets/docs/datasets/), `$GPU_ID` is the lanched GPU ID and `$AUGMENTATION` could be `random2, random3, random4` that sampling from {NodeDrop, Subgraph}, {NodeDrop, Subgraph, EdgePert} and {NodeDrop, Subgraph, EdgePert, AttrMask}, seperately. By default, we use `random4` in our paper.
+`$DATASET_NAME` is the dataset name (please refer to https://chrsmrrs.github.io/datasets/docs/datasets/), `$GPU_ID` is the lanched GPU ID and `$AUGMENTATION` could be `random2, random3, random4` that sampling from {NodeDrop, Subgraph}, {NodeDrop, Subgraph, EdgePert} and {NodeDrop, Subgraph, EdgePert, AttrMask}, seperately. By default, we use `random4` as the augmentation in our paper.
 
 ## Citation
 
@@ -55,16 +54,16 @@ If you find our work helpful, please cite our paper:
 
 ```
 @inproceedings{feng2022adversarial,
-author = {Feng, Shengyu and Jing, Baoyu and Zhu, Yada and Tong, Hanghang},
-title = {Adversarial Graph Contrastive Learning with Information Regularization},
-year = {2022},
-isbn = {9781450390965},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3485447.3512183},
-doi = {10.1145/3485447.3512183},
-location = {Virtual Event, Lyon, France},
-series = {WWW '22}
+    author = {Feng, Shengyu and Jing, Baoyu and Zhu, Yada and Tong, Hanghang},
+    title = {Adversarial Graph Contrastive Learning with Information Regularization},
+    year = {2022},
+    isbn = {9781450390965},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3485447.3512183},
+    doi = {10.1145/3485447.3512183},
+    location = {Virtual Event, Lyon, France},
+    series = {WWW '22}
 }
 
 @misc{feng2022ariel,
