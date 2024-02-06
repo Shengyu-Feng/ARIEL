@@ -27,7 +27,7 @@ def repeat(n_times):
 
 
 def prob_to_one_hot(y_pred):
-    ret = np.zeros(y_pred.shape, np.bool)
+    ret = np.zeros(y_pred.shape, bool)
     indices = np.argmax(y_pred, axis=1)
     for i in range(y_pred.shape[0]):
         ret[i][indices[i]] = True
@@ -52,7 +52,7 @@ def label_classification(embeddings, y, ratio):
     Y = y.detach().cpu().numpy()
     Y = Y.reshape(-1, 1)
     onehot_encoder = OneHotEncoder(categories='auto').fit(Y)
-    Y = onehot_encoder.transform(Y).toarray().astype(np.bool)
+    Y = onehot_encoder.transform(Y).toarray().astype(bool)
 
     X = normalize(X, norm='l2')
 
