@@ -1,6 +1,6 @@
 # ARIEL: Adversarial Graph Contrastive Learning
 
-The official PyTorch implementation of ARIEL in [Adversarial Graph Contrastive Learning with Information Regularization](https://arxiv.org/abs/2202.06491), WWW 2022, and its extended version [ARIEL: Adversarial Graph Contrastive Learning](https://arxiv.org/abs/2208.06956v1) accepted to TKDD. Our implementation is based on [GRACE](https://github.com/CRIPAC-DIG/GRACE), [GCA](https://github.com/CRIPAC-DIG/GCA) and [GraphCL](https://github.com/Shen-Lab/GraphCL).
+The official PyTorch implementation of ARIEL in [Adversarial Graph Contrastive Learning with Information Regularization](https://arxiv.org/abs/2202.06491), WWW 2022, and its extended version [ARIEL: Adversarial Graph Contrastive Learning](https://arxiv.org/abs/2208.06956) accepted to TKDD. Our implementation is based on [GRACE](https://github.com/CRIPAC-DIG/GRACE), [GCA](https://github.com/CRIPAC-DIG/GCA) and [GraphCL](https://github.com/Shen-Lab/GraphCL).
 
 
 ## Updates (Nov., 2023)
